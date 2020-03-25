@@ -1580,6 +1580,9 @@ void SendPacketRaw(int a1, void *packetData, size_t packetDataSize, void *a4, EN
 
 	void sendTileUpdate(int x, int y, int tile, int causedBy, ENetPeer* peer)
 	{
+		if (tile > itemDefs.size()) {
+			return;
+		}
 		PlayerMoving data;
 		//data.packetType = 0x14;
 		data.packetType = 0x3;
@@ -1600,7 +1603,7 @@ void SendPacketRaw(int a1, void *packetData, size_t packetDataSize, void *a4, EN
 		if (getItemDef(tile).blockType == BlockTypes::CONSUMABLE) return;
 
 		if (world == NULL) return;
-		if (x<0 || y<0 || x>world->width || y>world->height) return;
+		if (x<0 || y<0 || x>world->width - 1 || y>world->height - 1) return; // needs - 1
 		sendNothingHappened(peer,x,y);
 		if (!isSuperAdmin(((PlayerInfo*)(peer->data))->rawName, ((PlayerInfo*)(peer->data))->tankIDPass))
 		{
