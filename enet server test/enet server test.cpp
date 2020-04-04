@@ -3728,8 +3728,7 @@ label|Download Latest Version
 				std::stringstream ss(GetTextPointerFromPacket(event.packet));
 				std::string to;
 				bool isJoinReq = false;
-				if (!((PlayerInfo*)(peer->data))->hasLogon) break;
-				
+								
 				while (std::getline(ss, to, '\n')) {
 					string id = to.substr(0, to.find("|"));
 					string act = to.substr(to.find("|") + 1, to.length() - to.find("|") - 1);
@@ -3738,6 +3737,7 @@ label|Download Latest Version
 #ifdef TOTAL_LOG
 						cout << "Entering some world..." << endl;
 #endif
+						if (!((PlayerInfo*)(peer->data))->hasLogon) break;
 						try {
 							if (act.length() > 30) {
 								sendConsoleMsg(peer, "`4Sorry, but world names with more than 30 characters are not allowed!");
