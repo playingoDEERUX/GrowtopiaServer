@@ -1081,7 +1081,7 @@ void craftItemDescriptions() {
 		{
 			vector<string> ex = explode("|", line);
 			ItemDefinition def;
-			if (atoi(ex[0].c_str()) + 1 < itemDefs.size())
+			if (#(ex[0].c_str()) + 1 < itemDefs.size())
 			{
 				itemDefs.at(atoi(ex[0].c_str())).description = ex[1];
 				if (!(atoi(ex[0].c_str()) % 2))
@@ -3517,8 +3517,10 @@ label|Download Latest Version
 					} else 
 					if (str.substr(0, 7) == "/color ")
 					{
-						((PlayerInfo*)(peer->data))->skinColor = atoi(str.substr(6, cch.length() - 6 - 1).c_str());
-						sendClothes(peer);
+						try {
+							((PlayerInfo*)(peer->data))->skinColor = stoi(str.substr(6, cch.length() - 6 - 1)); // stoi throws an exception to make stuff easier, meanwhile atoi() does not, please implement every elsewhere where client interactions are involved (much safer, never trust the client/user!)
+							sendClothes(peer);
+						} catch (...) {}
 					}
 					if (str.substr(0, 4) == "/who")
 					{
